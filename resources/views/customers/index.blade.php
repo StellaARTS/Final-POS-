@@ -1,7 +1,7 @@
 @extends('layouts.master')
 ​
 @section('title')
-    Manajemen Produk
+    Manajemen Pelanggan
 @endsection
 ​
 @section('content')
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Manajemen Produk</h1>
+                        <h1 class="m-0 text-dark">Manajemen Pelanggan</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Produk</li>
+                            <li class="breadcrumb-item active">Pelanggan</li>
                         </ol>
                     </div>
                 </div>
@@ -28,10 +28,12 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header row">
-                                <div class="col-9 h3 float-start">Daftar Produk</div>
+                                <div class="col-9 h3 float-start">Daftar Pelanggan</div>
                                 <div class="col-3" style="text-align: right;">
-                                    <a href="{{ route('products.create') }}" class="btn btn-lg btn-primary float-end">Tambah</a>
+                                    <a href="{{ route('customers.create') }}" class="btn btn-lg btn-primary float-end">Tambah</a>
                                 </div>
+
+                                <!-- pop up  message -->
                                 @if (session('success'))
                                 <div class="card-body">
                                     <div class="alert alert-success alert-dismissible">
@@ -45,42 +47,28 @@
                                     <thead>
                                         <tr>
                                             <td>No</td>
-                                            <td>Foto</td>
-                                            <!-- <td>Kode Produk</td> -->
-                                            <td>Nama Produk</td>
-                                            <td>Deskripsi</td>
-                                            <td>Stok</td>
-                                            <td>Harga</td>
-                                            <td>Kategori</td>
+                                            <td>Email</td>
+                                            <td>Name</td>
+                                            <td>Address</td>
+                                            <td>phone</td>
                                             <td>Update</td>
                                             <td width=100>Aksi</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($products as $row)
+                                        @forelse ($customers as $row)
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
-                                                <td>
-                                                    @if (!empty($row->photo))
-                                                        <img src="{{ asset('uploads/product/' . $row->photo) }}" alt="{{ $row->name }}" width="50px" height="50px">
-                                                    @else
-                                                        <img src="https://via.placeholder.com/50x50" alt="{{ $row->name }}">
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <sup class="label label-success">{{ $row->code }}</sup> 
-                                                    <strong>{{ ucfirst($row->name) }}</strong>
-                                                </td>
-                                                <td>{{ $row->description }}</td>
-                                                <td>{{ $row->stock }}</td>
-                                                <td>Rp {{ number_format($row->price) }}</td>
-                                                <td>{{ $row->category->name }}</td>
+                                                <td>{{ $row->email }}</td>
+                                                <td>{{ $row->name }}</td>
+                                                <td>{{ $row->address }}</td>
+                                                <td>{{ $row->phone }}</td>
                                                 <td>{{ $row->updated_at }}</td>
                                                 <td>
-                                                    <form action="{{ route('products.destroy', $row->id) }} " onsubmit="return confirm('Apakah Anda Yakin ?');" method="POST">
+                                                    <form action="{{ route('customers.destroy', $row->id) }}" onsubmit="return confirm('Are You Sure?');" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="_method" value="DELETE">
-                                                        <a href="{{ route('products.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                                        <a href="{{ route('customers.edit', $row->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
                                                         <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                                                     </form>
                                                 </td>
@@ -93,7 +81,7 @@
                                     </tbody>
                                 </table>
                                 <div class="float-right">
-                                    {!! $products->links() !!}
+                                    {!! $customers->links() !!}
                                 </div>
                             </div>
                         </div>
